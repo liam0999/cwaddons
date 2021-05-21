@@ -1,0 +1,64 @@
+--[[
+
+    To add custom sound go to Synapse X folder > workspace > cw_configs > customsounds, (If you dont have this folder, make one or execute this script one time and it'll automatically create one for you)
+    once you're there just drag a .mp3 file there and it should work fine. (Must be .mp3)
+
+--]]
+
+------------------------------------------------------------------------------------------------------------ << Filesystem / Vars / Load
+
+repeat wait() until getgenv().library ~= nil and getgenv().library.hasInit -- wait for cuteware to load
+
+if not isfolder("cw_configs/customsounds") then
+    makefolder("cw_configs/customsounds")
+end
+
+local soundsTable = {}
+for _,v in next, listfiles("cw_configs/customsounds") do
+    local fileName = string.sub(v,25)
+    soundsTable[fileName] = v
+end
+
+local vol = 0
+
+------------------------------------------------------------------------------------------------------------ << UI
+
+local cw = game:GetService("Cuteware")
+local tabs = cw:GetTabs()
+local sounds = tabs.Scripts:GetColumn(1):AddSection("Custom Sounds")
+
+sounds:AddToggle({text = "Hit Sound"}):AddList({text = "hitsoundlist", max = #soundsTable, values = soundsTable})
+sounds:AddToggle({text = "Kill Sound"}):AddList({text = "killsoundlist", max = #soundsTable, values = soundsTable})
+sounds:AddSlider({text = "Volume", min = 0, max = 20, callback = function(val)
+    vol = val
+end})
+sounds:AddToggle({text = "Teammates"})
+
+------------------------------------------------------------------------------------------------------------ << Events
+
+local function doSound(id)
+    local sound = Instance.new("Sound",game:GetService("CoreGui"))
+    sound.SoundId = getsynasset(soundsTable[id])
+    sound.Volume = vol
+    sound:Play()
+    sound.Ended:Wait()
+    sound:Destroy()
+end
+
+cw.HitEvent.Event:Connect(function(plr)
+    if library.flags["Hit Sound"] then
+        if (plr.TeamColor == game.Players.LocalPlayer.TeamColor and library.flags.Teammates) or plr.TeamColor ~= game.Players.LocalPlayer.TeamColor then
+                doSound(library.flags.hitsoundlist)
+        end
+    end
+end)
+
+cw.KillEvent.Event:Connect(function()
+    if library.flags["Kill Sound"] then
+        doSound(library.flags.killsoundlist)
+    end
+end)
+
+syn.queue_on_teleport([[
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/liam0999/cwaddons/new/main'))()
+]])
