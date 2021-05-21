@@ -30,7 +30,7 @@ local sounds = tabs.Scripts:GetColumn(1):AddSection("Custom Sounds")
 
 sounds:AddToggle({text = "Hit Sound"}):AddList({text = "hitsoundlist", max = #files, values = soundsTable})
 sounds:AddToggle({text = "Kill Sound"}):AddList({text = "killsoundlist", max = #files, values = soundsTable})
-sounds:AddSlider({text = "Volume", min = 0, max = 20, callback = function(val)
+sounds:AddSlider({text = "Volume", min = 1, max = 20, callback = function(val)
     vol = val
 end})
 sounds:AddToggle({text = "Teammates"})
