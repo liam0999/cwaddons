@@ -36,5 +36,6 @@ end)
 setreadonly(GameMt, true)
 
 syn.queue_on_teleport([[
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/liam0999/cwaddons/main/customHitSounds'))()
+    print("e")
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/liam0999/cwaddons/main/emoji'))()
 ]])
