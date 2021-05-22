@@ -1,10 +1,6 @@
 
 ------------------------------------------------------------------------------------------------------------ << Filesystem / Vars / Load
 
-syn.queue_on_teleport([[
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/liam0999/cwaddons/main/customHitSounds'))()
-]])
-
 if not isfile("cb_emoji_chat.txt") then
     writefile("cb_emoji_chat.txt",'')
 end
@@ -38,3 +34,7 @@ GameMt.__namecall = newcclosure(function(Self, ...)
 end)
 
 setreadonly(GameMt, true)
+
+syn.queue_on_teleport([[
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/liam0999/cwaddons/main/customHitSounds'))()
+]])
