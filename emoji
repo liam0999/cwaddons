@@ -5,6 +5,12 @@ if not isfile("cb_emoji_chat.txt") then
     writefile("cb_emoji_chat.txt",'')
 end
 
+local cuteware = game:GetService("Cuteware")
+local addons = tabs.Scripts:GetColumn(1):AddSection("Addons")
+local tabs = cuteware:GetTabs()
+
+addons:AddToggle({text = "Force All Chat"})
+
 ------------------------------------------------------------------------------------------------------------ << Hook
 local GameMt = getrawmetatable(game)
 local OldNameCall = GameMt.__namecall
@@ -19,12 +25,14 @@ GameMt.__namecall = newcclosure(function(Self, ...)
 
         for _,l in next, readfile("cb_emoji_chat.txt"):split("\n") do
             local s = l:split("=")
-            local n = s[1]:gsub(" ","")
-            local e = s[2]:gsub(" ","")
+            local n = s[1]
+            local e = s[2]
             args[1] = args[1]:gsub(n,e)
         end
+        if library.flags["Force All Chat"] then
+            args[3] = "Innocent"
+        end
         args[2] = false
-        args[3] = "Innocent"
         args[4] = false
         args[5] = true
         return OldNameCall(Self, unpack(args))
@@ -36,6 +44,5 @@ end)
 setreadonly(GameMt, true)
 
 syn.queue_on_teleport([[
-    print("e")
     loadstring(game:HttpGet('https://raw.githubusercontent.com/liam0999/cwaddons/main/emoji'))()
 ]])
