@@ -5,9 +5,12 @@ if not isfile("cb_emoji_chat.txt") then
     writefile("cb_emoji_chat.txt",'')
 end
 
+repeat wait() until library ~= nil and library.hasInit == true
+
 local cuteware = game:GetService("Cuteware")
-local addons = tabs.Scripts:GetColumn(1):AddSection("Addons")
+
 local tabs = cuteware:GetTabs()
+local addons = tabs.Scripts:GetColumn(1):AddSection("Addons")
 
 addons:AddToggle({text = "Force All Chat"})
 
